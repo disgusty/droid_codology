@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Adaptive icon foreground: the "</>" glyph inside the 66dp safe zone of a 108dp canvas. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:pathData="M45.04,43.12L36.08,54L45.04,64.88M57.84,40.56L50.16,67.44M62.96,43.12L71.92,54L62.96,64.88"
+        android:strokeWidth="5"
+        android:strokeColor="#21005D"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

@@ -1,0 +1,29 @@
+# Build output
+build/
+.gradle/
+*.apk
+*.aab
+
+# Local machine settings
+local.properties
+.idea/
+*.iml
+.vscode/
+
+# Release signing key and its password - never publish these
+signing/
+*.jks
+*.keystore
+keystore.properties
+
+# Built-in sign-in settings of your own builds (template: accounts.example.properties)
+accounts.properties
+
+# Downloaded originals for tools/icons.py (re-fetched on demand)
+tools/icons_cache/
+
+# OS junk
+.DS_Store
+Thumbs.db
+server/data/
+server/__pycache__/

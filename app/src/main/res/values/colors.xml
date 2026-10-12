@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- primaryContainer of the Material 3 baseline scheme -->
+    <color name="m3_icon_background">#EADDFF</color>
+</resources>

@@ -1,0 +1,114 @@
+{
+  "python": {
+    "def": {"prefix": "def", "body": ["def ${1:name}(${2}):", "\t${0:pass}"], "description": "Function"},
+    "defm": {"prefix": "defm", "body": ["def ${1:name}(self${2}):", "\t${0:pass}"], "description": "Method"},
+    "class": {"prefix": "class", "body": ["class ${1:Name}${2:(object)}:", "\tdef __init__(self${3}):", "\t\t${0:pass}"], "description": "Class"},
+    "if": {"prefix": "if", "body": ["if ${1:condition}:", "\t${0:pass}"], "description": "if"},
+    "ifelse": {"prefix": "ifelse", "body": ["if ${1:condition}:", "\t${2:pass}", "else:", "\t${0:pass}"], "description": "if/else"},
+    "for": {"prefix": "for", "body": ["for ${1:item} in ${2:items}:", "\t${0:pass}"], "description": "for loop"},
+    "forr": {"prefix": "forr", "body": ["for ${1:i} in range(${2:n}):", "\t${0:pass}"], "description": "for in range"},
+    "while": {"prefix": "while", "body": ["while ${1:condition}:", "\t${0:pass}"], "description": "while loop"},
+    "try": {"prefix": "try", "body": ["try:", "\t${1:pass}", "except ${2:Exception} as ${3:e}:", "\t${0:raise}"], "description": "try/except"},
+    "with": {"prefix": "with", "body": ["with ${1:open(path)} as ${2:f}:", "\t${0:pass}"], "description": "with statement"},
+    "main": {"prefix": "ifmain", "body": ["if __name__ == \"__main__\":", "\t${0:main()}"], "description": "if __name__ == '__main__'"},
+    "lambda": {"prefix": "lambda", "body": ["lambda ${1:x}: ${0:x}"], "description": "lambda"},
+    "listcomp": {"prefix": "lc", "body": ["[${1:x} for ${2:x} in ${3:items}]"], "description": "list comprehension"},
+    "print": {"prefix": "pr", "body": ["print(${0})"], "description": "print"}
+  },
+  "java": {
+    "main": {"prefix": "main", "body": ["public static void main(String[] args) {", "\t${0}", "}"], "description": "main method"},
+    "sysout": {"prefix": "sysout", "body": ["System.out.println(${0});"], "description": "System.out.println"},
+    "syserr": {"prefix": "syserr", "body": ["System.err.println(${0});"], "description": "System.err.println"},
+    "class": {"prefix": "class", "body": ["public class ${1:${TM_FILENAME_BASE}} {", "\t${0}", "}"], "description": "Class"},
+    "fori": {"prefix": "fori", "body": ["for (int ${1:i} = 0; ${1:i} < ${2:n}; ${1:i}++) {", "\t${0}", "}"], "description": "indexed for"},
+    "foreach": {"prefix": "foreach", "body": ["for (${1:String} ${2:item} : ${3:items}) {", "\t${0}", "}"], "description": "for-each"},
+    "if": {"prefix": "if", "body": ["if (${1:condition}) {", "\t${0}", "}"], "description": "if"},
+    "ifelse": {"prefix": "ifelse", "body": ["if (${1:condition}) {", "\t${2}", "} else {", "\t${0}", "}"], "description": "if/else"},
+    "try": {"prefix": "try", "body": ["try {", "\t${1}", "} catch (${2:Exception} ${3:e}) {", "\t${0:throw new RuntimeException(e);}", "}"], "description": "try/catch"},
+    "while": {"prefix": "while", "body": ["while (${1:condition}) {", "\t${0}", "}"], "description": "while"},
+    "switch": {"prefix": "switch", "body": ["switch (${1:key}) {", "\tcase ${2:value}:", "\t\t${0}", "\t\tbreak;", "\tdefault:", "\t\tbreak;", "}"], "description": "switch"},
+    "override": {"prefix": "override", "body": ["@Override", "public ${1:String} ${2:toString}(${3}) {", "\t${0}", "}"], "description": "override method"},
+    "ctor": {"prefix": "ctor", "body": ["public ${1:${TM_FILENAME_BASE}}(${2}) {", "\t${0}", "}"], "description": "constructor"}
+  },
+  "kotlin": {
+    "main": {"prefix": "main", "body": ["fun main(args: Array<String>) {", "\t${0}", "}"], "description": "main function"},
+    "fun": {"prefix": "fun", "body": ["fun ${1:name}(${2}): ${3:Unit} {", "\t${0}", "}"], "description": "function"},
+    "class": {"prefix": "class", "body": ["class ${1:Name}(${2}) {", "\t${0}", "}"], "description": "class"},
+    "data": {"prefix": "data", "body": ["data class ${1:Name}(val ${2:id}: ${3:Int})"], "description": "data class"},
+    "when": {"prefix": "when", "body": ["when (${1:value}) {", "\t${2:else} -> ${0}", "}"], "description": "when"},
+    "for": {"prefix": "for", "body": ["for (${1:item} in ${2:items}) {", "\t${0}", "}"], "description": "for"},
+    "if": {"prefix": "if", "body": ["if (${1:condition}) {", "\t${0}", "}"], "description": "if"},
+    "println": {"prefix": "pr", "body": ["println(${0})"], "description": "println"}
+  },
+  "go": {
+    "main": {"prefix": "main", "body": ["package main", "", "import \"fmt\"", "", "func main() {", "\t${0:fmt.Println(\"hello\")}", "}"], "description": "main package"},
+    "func": {"prefix": "func", "body": ["func ${1:name}(${2}) ${3:error} {", "\t${0}", "}"], "description": "function"},
+    "meth": {"prefix": "meth", "body": ["func (${1:r} *${2:Type}) ${3:Name}(${4}) ${5:error} {", "\t${0}", "}"], "description": "method"},
+    "iferr": {"prefix": "iferr", "body": ["if err != nil {", "\treturn ${0:err}", "}"], "description": "if err != nil"},
+    "for": {"prefix": "for", "body": ["for ${1:i} := 0; ${1:i} < ${2:n}; ${1:i}++ {", "\t${0}", "}"], "description": "for loop"},
+    "forr": {"prefix": "forr", "body": ["for ${1:_}, ${2:v} := range ${3:items} {", "\t${0}", "}"], "description": "for range"},
+    "struct": {"prefix": "struct", "body": ["type ${1:Name} struct {", "\t${0}", "}"], "description": "struct"},
+    "interface": {"prefix": "interface", "body": ["type ${1:Name} interface {", "\t${0}", "}"], "description": "interface"},
+    "pf": {"prefix": "pf", "body": ["fmt.Printf(\"${1:%v}\\n\", ${0})"], "description": "fmt.Printf"}
+  },
+  "rust": {
+    "fn": {"prefix": "fn", "body": ["fn ${1:name}(${2}) ${3:-> ${4:()}} {", "\t${0}", "}"], "description": "function"},
+    "main": {"prefix": "main", "body": ["fn main() {", "\t${0}", "}"], "description": "main"},
+    "struct": {"prefix": "struct", "body": ["struct ${1:Name} {", "\t${0}", "}"], "description": "struct"},
+    "impl": {"prefix": "impl", "body": ["impl ${1:Type} {", "\t${0}", "}"], "description": "impl block"},
+    "match": {"prefix": "match", "body": ["match ${1:value} {", "\t${2:_} => ${0},", "}"], "description": "match"},
+    "test": {"prefix": "test", "body": ["#[test]", "fn ${1:it_works}() {", "\t${0:assert_eq!(2 + 2, 4);}", "}"], "description": "test function"},
+    "println": {"prefix": "pr", "body": ["println!(\"${1:{\\}}\", ${0});"], "description": "println!"},
+    "for": {"prefix": "for", "body": ["for ${1:item} in ${2:items} {", "\t${0}", "}"], "description": "for loop"}
+  },
+  "shellscript": {
+    "shebang": {"prefix": "#!", "body": ["#!/bin/${1:bash}", "${0}"], "description": "shebang"},
+    "if": {"prefix": "if", "body": ["if [ ${1:condition} ]; then", "\t${0}", "fi"], "description": "if"},
+    "for": {"prefix": "for", "body": ["for ${1:f} in ${2:*}; do", "\t${0}", "done"], "description": "for loop"},
+    "while": {"prefix": "while", "body": ["while ${1:true}; do", "\t${0}", "done"], "description": "while loop"},
+    "case": {"prefix": "case", "body": ["case \"${1:\\$1}\" in", "\t${2:pattern})", "\t\t${0}", "\t\t;;", "esac"], "description": "case"},
+    "func": {"prefix": "func", "body": ["${1:name}() {", "\t${0}", "}"], "description": "function"}
+  },
+  "lua": {
+    "function": {"prefix": "fun", "body": ["function ${1:name}(${2})", "\t${0}", "end"], "description": "function"},
+    "local": {"prefix": "local", "body": ["local ${1:x} = ${0}"], "description": "local"},
+    "for": {"prefix": "for", "body": ["for ${1:i} = ${2:1}, ${3:10} do", "\t${0}", "end"], "description": "numeric for"},
+    "forp": {"prefix": "forp", "body": ["for ${1:k}, ${2:v} in pairs(${3:t}) do", "\t${0}", "end"], "description": "pairs loop"},
+    "if": {"prefix": "if", "body": ["if ${1:condition} then", "\t${0}", "end"], "description": "if"}
+  },
+  "ruby": {
+    "def": {"prefix": "def", "body": ["def ${1:name}${2:(args)}", "\t${0}", "end"], "description": "method"},
+    "class": {"prefix": "class", "body": ["class ${1:Name}", "\t${0}", "end"], "description": "class"},
+    "each": {"prefix": "each", "body": ["${1:items}.each do |${2:item}|", "\t${0}", "end"], "description": "each"},
+    "if": {"prefix": "if", "body": ["if ${1:condition}", "\t${0}", "end"], "description": "if"}
+  },
+  "dart": {
+    "main": {"prefix": "main", "body": ["void main() {", "\t${0}", "}"], "description": "main"},
+    "class": {"prefix": "class", "body": ["class ${1:Name} {", "\t${0}", "}"], "description": "class"},
+    "stless": {"prefix": "stless", "body": ["class ${1:Name} extends StatelessWidget {", "\tconst ${1:Name}({super.key});", "", "\t@override", "\tWidget build(BuildContext context) {", "\t\treturn ${0:const Placeholder()};", "\t}", "}"], "description": "Flutter StatelessWidget"},
+    "for": {"prefix": "for", "body": ["for (var ${1:i} = 0; ${1:i} < ${2:n}; ${1:i}++) {", "\t${0}", "}"], "description": "for"}
+  },
+  "c": {
+    "main": {"prefix": "main", "body": ["int main(int argc, char *argv[]) {", "\t${0}", "\treturn 0;", "}"], "description": "main"},
+    "inc": {"prefix": "inc", "body": ["#include <${1:stdio.h}>"], "description": "#include <>"},
+    "for": {"prefix": "for", "body": ["for (int ${1:i} = 0; ${1:i} < ${2:n}; ${1:i}++) {", "\t${0}", "}"], "description": "for"},
+    "printf": {"prefix": "pf", "body": ["printf(\"${1:%d}\\n\", ${0});"], "description": "printf"},
+    "struct": {"prefix": "struct", "body": ["typedef struct ${1:name} {", "\t${0}", "} ${1:name};"], "description": "typedef struct"}
+  },
+  "cpp": {
+    "main": {"prefix": "main", "body": ["int main(int argc, char *argv[]) {", "\t${0}", "\treturn 0;", "}"], "description": "main"},
+    "inc": {"prefix": "inc", "body": ["#include <${1:iostream}>"], "description": "#include <>"},
+    "cout": {"prefix": "cout", "body": ["std::cout << ${0} << std::endl;"], "description": "std::cout"},
+    "class": {"prefix": "class", "body": ["class ${1:Name} {", "public:", "\t${1:Name}();", "\t~${1:Name}();", "", "private:", "\t${0}", "};"], "description": "class"},
+    "for": {"prefix": "for", "body": ["for (int ${1:i} = 0; ${1:i} < ${2:n}; ${1:i}++) {", "\t${0}", "}"], "description": "for"},
+    "forr": {"prefix": "forr", "body": ["for (auto &${1:item} : ${2:items}) {", "\t${0}", "}"], "description": "range-based for"}
+  },
+  "html": {
+    "html5": {"prefix": "!", "body": ["<!DOCTYPE html>", "<html lang=\"${1:en}\">", "<head>", "\t<meta charset=\"UTF-8\">", "\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">", "\t<title>${2:Document}</title>", "</head>", "<body>", "\t${0}", "</body>", "</html>"], "description": "HTML5 document (Emmet !)"}
+  },
+  "sql": {
+    "select": {"prefix": "sel", "body": ["SELECT ${1:*}", "FROM ${2:table}", "WHERE ${0:1 = 1};"], "description": "SELECT"},
+    "insert": {"prefix": "ins", "body": ["INSERT INTO ${1:table} (${2:columns})", "VALUES (${0:values});"], "description": "INSERT"},
+    "create": {"prefix": "ct", "body": ["CREATE TABLE ${1:name} (", "\tid INTEGER PRIMARY KEY,", "\t${0}", ");"], "description": "CREATE TABLE"}
+  }
+}

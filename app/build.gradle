@@ -1,0 +1,113 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.disgusty.droid_codology'
+    compileSdk 36
+    useLibrary 'android.test.runner'
+    useLibrary 'android.test.base'
+
+    defaultConfig {
+        applicationId 'com.disgusty.droid_codology'
+        // Android 4.2 (API 17) and up. Calls above API 17 must be guarded; lint's NewApi is an error.
+        minSdk 17
+        targetSdk 35
+        // Release candidates take their own code; the final 0.7.0 must use a higher one than any RC.
+        versionCode 17
+        versionName '1.0'
+        testInstrumentationRunner 'android.test.InstrumentationTestRunner'
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+        }
+    }
+
+    // The terminal's pseudo-terminal helper (src/main/cpp). NDK 23 is the last one supporting API 17.
+    ndkVersion '23.1.7779620'
+    externalNativeBuild {
+        cmake {
+            path 'src/main/cpp/CMakeLists.txt'
+            version '3.22.1'
+        }
+    }
+
+    // Sign-in built into the app (see ACCOUNTS.md): a default server and a Google OAuth client
+    // ("Desktop app" type) for signing in with Google without a server. Optional, git-ignored.
+    def accountProps = new Properties()
+    def accountFile = rootProject.file('accounts.properties')
+    if (accountFile.exists()) accountFile.withInputStream { accountProps.load(it) }
+    def quoted = { String key -> '"' + (accountProps.getProperty(key, '').trim().replace('\\', '\\\\').replace('"', '\\"')) + '"' }
+    defaultConfig {
+        buildConfigField 'String', 'DEFAULT_SERVER', quoted('defaultServer')
+        buildConfigField 'String', 'GOOGLE_CLIENT_ID', quoted('googleClientId')
+        buildConfigField 'String', 'GOOGLE_CLIENT_SECRET', quoted('googleClientSecret')
+        buildConfigField 'String', 'GOOGLE_DEVICE_CLIENT_ID', quoted('googleDeviceClientId')
+        buildConfigField 'String', 'GOOGLE_DEVICE_CLIENT_SECRET', quoted('googleDeviceClientSecret')
+        buildConfigField 'String', 'GITHUB_CLIENT_ID', quoted('githubClientId')
+        buildConfigField 'String', 'FIREBASE_API_KEY', quoted('firebaseApiKey')
+        buildConfigField 'String', 'FIREBASE_DATABASE_URL', quoted('firebaseDatabaseUrl')
+    }
+    buildFeatures {
+        buildConfig true
+    }
+    // PRoot (libproot*.so, tools/native/build-proot.sh) is executed, not loaded: it must be a real
+    // file in the native library folder, so native libraries stay unpacked on install.
+    packaging {
+        jniLibs {
+            useLegacyPackaging true
+        }
+    }
+
+    def keyProps = new Properties()
+    def keyFile = rootProject.file('signing/keystore.properties')
+    if (keyFile.exists()) keyFile.withInputStream { keyProps.load(it) }
+
+    signingConfigs {
+        disgusty {
+            if (keyFile.exists()) {
+                storeFile rootProject.file(keyProps['storeFile'])
+                storePassword keyProps['storePassword']
+                keyAlias keyProps['keyAlias']
+                keyPassword keyProps['keyPassword']
+            }
+            enableV1Signing true
+            enableV2Signing true
+        }
+    }
+
+    buildTypes {
+        release {
+            // R8 keeps the APK small; the rules keep extension-facing classes by name.
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig keyFile.exists() ? signingConfigs.disgusty : signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lint {
+        abortOnError true
+        checkReleaseBuilds true
+        error 'NewApi', 'InlinedApi'
+        disable 'ExpiredTargetSdkVersion', 'OldTargetApi', 'GradleDependency',
+                'SetTextI18n', 'HardcodedText', 'RtlHardcoded', 'RtlSymmetry', 'UnusedAttribute',
+                'ObsoleteSdkInt', 'DrawAllocation', 'ClickableViewAccessibility', 'ApplySharedPref',
+                'UseRequiresApi', 'ViewConstructor', 'AndroidGradlePluginVersion', 'IconMissingDensityFolder',
+                'ScopedStorage', 'QueryAllPackagesPermission'
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+    // android.jar only has org.json stubs; the real thing for JVM unit tests.
+    testImplementation 'org.json:json:20240303'
+}

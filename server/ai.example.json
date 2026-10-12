@@ -1,0 +1,30 @@
+[
+  {
+    "id": "openai",
+    "kind": "openai",
+    "baseUrl": "https://api.openai.com/v1",
+    "apiKey": "$OPENAI_API_KEY",
+    "models": ["gpt-4o-mini", "gpt-4o"]
+  },
+  {
+    "id": "anthropic",
+    "kind": "anthropic",
+    "baseUrl": "https://api.anthropic.com",
+    "apiKey": "$ANTHROPIC_API_KEY",
+    "models": ["claude-sonnet-5-5", "claude-haiku-4-5-20251001"]
+  },
+  {
+    "id": "gemini",
+    "kind": "gemini",
+    "baseUrl": "https://generativelanguage.googleapis.com",
+    "apiKey": "$GEMINI_API_KEY",
+    "models": ["gemini-2.5-flash"]
+  },
+  {
+    "id": "local",
+    "kind": "openai",
+    "baseUrl": "http://127.0.0.1:11434/v1",
+    "apiKey": "",
+    "models": ["qwen2.5-coder:7b"]
+  }
+]

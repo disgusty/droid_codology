@@ -1,0 +1,52 @@
+diff --git a/src/syscall/enter.c b/src/syscall/enter.c
+index 6bfdd56..a392d38 100644
+--- a/src/syscall/enter.c
++++ b/src/syscall/enter.c
+@@ -34,6 +34,7 @@
+ #include <sys/mount.h>   /* MS_BIND, MS_REMOUNT, ... */
+ #include <sys/socket.h>  /* AF_NETLINK, AF_UNIX, SOCK_DGRAM, SOCK_CLOEXEC */
+ #include <sched.h>       /* CLONE_NEW*, */
++#include <signal.h>      /* SIGCHLD, */
+ #include <termios.h>     /* TCSETS, TCSANOW */
+ #include <linux/netlink.h> /* struct nlmsghdr, NLMSG_ERROR, struct nlmsgerr */
+ #include <linux/rtnetlink.h> /* RTM_*, struct ifinfomsg, struct rtattr, RTA_* */
+@@ -2475,10 +2476,25 @@ int translate_syscall_enter(Tracee *tracee)
+ 	}
+ 
+ 	case PR_fork:
+-	case PR_vfork:
++	case PR_vfork: {
++		/* Android's seccomp policy for apps rejects fork(2) and
++		 * vfork(2) (bionic only uses clone), while musl calls them
++		 * directly on x86 and x86_64: run the equivalent clone(2),
++		 * which the kernel checks against seccomp after this
++		 * change (Linux >= 4.8).  */
++		word_t clone_flags = SIGCHLD;
++		if (get_sysnum(tracee, ORIGINAL) == PR_vfork)
++			clone_flags |= CLONE_VM | CLONE_VFORK;
++		set_sysnum(tracee, PR_clone);
++		poke_reg(tracee, SYSARG_1, clone_flags);
++		poke_reg(tracee, SYSARG_2, 0);
++		poke_reg(tracee, SYSARG_3, 0);
++		poke_reg(tracee, SYSARG_4, 0);
++		poke_reg(tracee, SYSARG_5, 0);
+ 		force_fork_sysexit(tracee);
+ 		status = 0;
+ 		break;
++	}
+ 
+ 	/* mount(2) and pivot_root(2) are emulated by translating them
+ 	 * into PRoot bindings (see emulate_mount/emulate_pivot_root)
+diff --git a/src/syscall/seccomp.c b/src/syscall/seccomp.c
+index 198a2d1..39a0f54 100644
+--- a/src/syscall/seccomp.c
++++ b/src/syscall/seccomp.c
+@@ -342,6 +342,8 @@ static FilteredSysnum proot_sysnums[] = {
+ 	{ PR_chroot,		0 },
+ 	{ PR_clone,		0 },
+ 	{ PR_clone3,		0 },
++	{ PR_fork,		0 },
++	{ PR_vfork,		0 },
+ 	{ PR_close,		0 },
+ 	{ PR_connect,		0 },
+ 	{ PR_creat,		0 },

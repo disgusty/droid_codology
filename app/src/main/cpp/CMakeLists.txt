@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.18)
+project(dcpty C)
+add_library(dcpty SHARED pty.c)
+target_compile_options(dcpty PRIVATE -Os -Wall -fvisibility=hidden)
+target_link_options(dcpty PRIVATE -Wl,--gc-sections -s)

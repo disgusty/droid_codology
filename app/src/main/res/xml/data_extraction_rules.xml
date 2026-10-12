@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 12+ cloud backup and device-to-device transfer: API keys and sign-in tokens stay on the device. -->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="sharedpref" path="ai.xml" />
+        <exclude domain="sharedpref" path="account.xml" />
+        <exclude domain="sharedpref" path="lock.xml" />
+        <exclude domain="file" path="alpine/" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="sharedpref" path="ai.xml" />
+        <exclude domain="sharedpref" path="account.xml" />
+        <exclude domain="sharedpref" path="lock.xml" />
+        <exclude domain="file" path="alpine/" />
+    </device-transfer>
+</data-extraction-rules>
